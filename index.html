@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مصطفي صقر | بطاقة أعمال رقمية</title>
+<style>
+  /* ========== الألوان (يمكنك تغيير الذهبي من هنا) ========== */
+  :root{
+    --gold:#d4af37;
+    --gold-light:#f6e27a;
+    --gold-dark:#a8862a;
+    --bg:#07070b;
+    --text:#f5f3ea;
+    --muted:#a9a79c;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    min-height:100vh;
+    font-family:"Segoe UI",Tahoma,"Geeza Pro",Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 15% 10%, #2e2409 0%, transparent 40%),
+      radial-gradient(circle at 85% 90%, #1e1707 0%, transparent 45%),
+      var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow-x:hidden;
+  }
+
+  /* ========== البطاقة الزجاجية ========== */
+  .card{
+    width:100%;
+    max-width:420px;
+    padding:32px 24px;
+    border-radius:28px;
+    text-align:center;
+    background:linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+    border:1px solid rgba(212,175,55,.35);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    box-shadow:0 25px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.1);
+    animation:fadeUp .8s ease both;
+  }
+
+  /* ========== الصورة الشخصية / الشعار ========== */
+  .avatar{
+    width:120px;
+    height:120px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    padding:3px;
+    background:linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    box-shadow:0 0 30px rgba(212,175,55,.35);
+  }
+  .avatar-inner{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:#14120b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    font-weight:700;
+    color:var(--gold);
+    overflow:hidden;
+  }
+  .avatar-inner img{width:100%;height:100%;object-fit:cover}
+
+  h1{
+    font-size:26px;
+    margin-bottom:6px;
+    background:linear-gradient(90deg, var(--gold-light), var(--gold));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .title{font-size:16px;margin-bottom:4px}
+  .company{
+    display:inline-block;
+    margin-top:8px;
+    padding:4px 14px;
+    border-radius:999px;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    font-size:13px;
+    letter-spacing:2px;
+  }
+  .bio{color:var(--muted);font-size:14px;line-height:1.8;margin:16px 0 22px}
+
+  /* ========== الأزرار ========== */
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:14px;
+    border-radius:16px;
+    border:1px solid rgba(212,175,55,.3);
+    background:rgba(255,255,255,.05);
+    color:var(--text);
+    font-size:15px;
+    font-family:inherit;
+    cursor:pointer;
+    text-decoration:none;
+    transition:transform .2s, box-shadow .2s, background .2s;
+  }
+  .btn:hover{
+    transform:translateY(-2px);
+    background:rgba(212,175,55,.12);
+    box-shadow:0 8px 20px rgba(212,175,55,.2);
+  }
+  .btn-primary{
+    background:linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color:#14100a;
+    font-weight:700;
+    font-size:16px;
+    border:none;
+    margin-bottom:14px;
+  }
+  .btn-primary:hover{
+    background:linear-gradient(90deg, var(--gold), var(--gold-light));
+    color:#14100a;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .mb{margin-bottom:14px}
+
+  /* ========== أيقونات التواصل ========== */
+  .socials{display:flex;justify-content:center;gap:12px;margin:22px 0 14px;flex-wrap:wrap}
+  .social{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(212,175,55,.35);
+    background:rgba(255,255,255,.04);
+    color:var(--gold);
+    text-decoration:none;
+    transition:transform .2s, background .2s, color .2s;
+  }
+  .social:hover{background:var(--gold);color:#14100a;transform:translateY(-3px)}
+  .social svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ========== معلومات الاتصال ========== */
+  .info{margin-top:18px;font-size:13px;color:var(--muted);line-height:1.9}
+  .ltr{direction:ltr;display:inline-block}
+
+  /* ========== رسالة التنبيه ========== */
+  .toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%) translateY(120px);
+    background:var(--gold);
+    color:#14100a;
+    padding:12px 22px;
+    border-radius:14px;
+    font-weight:700;
+    transition:transform .4s;
+    z-index:10;
+    max-width:90%;
+    text-align:center;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:none}
+  }
+
+  @media (max-width:360px){
+    .grid{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<main class="card">
+  <!-- الصورة الشخصية أو الشعار -->
+  <div class="avatar">
+    <div class="avatar-inner" id="avatar"></div>
+  </div>
+
+  <h1 id="name"></h1>
+  <p class="title" id="title"></p>
+  <span class="company" id="company"></span>
+  <p class="bio" id="bio"></p>
+
+  <!-- زر حفظ جهة الاتصال -->
+  <button class="btn btn-primary" id="saveBtn">حفظ جهة الاتصال 📥</button>
+
+  <!-- أزرار الاتصال والواتساب والبريد والموقع -->
+  <div class="grid">
+    <a class="btn" id="callBtn" href="#">📞 اتصال</a>
+    <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener">💬 واتساب</a>
+    <a class="btn" id="mailBtn" href="#">✉️ بريد</a>
+    <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener">📍 الموقع</a>
+  </div>
+
+  <a class="btn mb" id="webBtn" href="#" target="_blank" rel="noopener">🌐 الموقع الإلكتروني</a>
+
+  <!-- زر المشاركة -->
+  <button class="btn" id="shareBtn">مشاركة الكارت 🔗</button>
+
+  <!-- أيقونات التواصل الاجتماعي -->
+  <div class="socials" id="socials"></div>
+
+  <!-- معلومات إضافية -->
+  <div class="info">
+    <p>📍 <span id="addrTxt"></span></p>
+    <p>📞 <span class="ltr" id="phoneTxt"></span></p>
+    <p>✉️ <span class="ltr" id="emailTxt"></span></p>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   ✏️ الإعدادات: عدّل البيانات من هنا فقط
+   ===================================================================== */
+const CONFIG = {
+  name: "مصطفي صقر",
+  title: "مطور أعمال تكنولوجيا طبية",
+  company: "EST",
+
+  // ✏️ نبذة سطر واحد عن خبرتك وخدماتك (أنت لم تكتبها بعد)
+  bio: "أساعد الشركات والمؤسسات الطبية على تطوير حلول التكنولوجيا الطبية وتحسين تجربة العمل الرقمي.",
+
+  // ✏️ رقم الهاتف بصيغة دولية مع علامة +
+  phone: "+201275646204",
+
+  // ✏️ رقم الواتساب بدون + ولا مسافات (هنا نفس رقم الهاتف)
+  whatsapp: "201275646204",
+
+  // ✏️ البريد الإلكتروني (لم تكتبه بعد)
+  email: "example@email.com",
+
+  // ✏️ المدينة والعنوان (لم تكتبه بعد)
+  address: "القاهرة، مصر",
+
+  // ✏️ رابط موقعك الإلكتروني (لم تكتبه بعد)
+  website: "https://example.com",
+
+  // ✏️ رابط صورة شخصية أو شعار الشركة (اتركه فارغًا لعرض الحروف الأولى)
+  // مثال: "https://example.com/photo.jpg"
+  avatarUrl: "",
+
+  // ✏️ روابط التواصل الاجتماعي (ضع رابط حسابك أو اتركه "#" للإخفاء)
+  social: {
+    facebook:  "https://facebook.com/",
+    instagram: "https://instagram.com/",
+    linkedin:  "https://linkedin.com/",
+    youtube:   "https://youtube.com/"
+  }
+};
+
+/* ===================== أيقونات SVG ===================== */
+const ICONS = {
+  facebook:  '<svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5"/></svg>',
+  linkedin:  '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>',
+  youtube:   '<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>'
+};
+
+const $ = id => document.getElementById(id);
+
+/* ===================== عرض البيانات في الصفحة ===================== */
+function render() {
+  $("name").textContent = CONFIG.name;
+  $("title").textContent = CONFIG.title;
+  $("company").textContent = CONFIG.company;
+  $("bio").textContent = CONFIG.bio;
+  $("addrTxt").textContent = CONFIG.address;
+  $("phoneTxt").textContent = CONFIG.phone;
+  $("emailTxt").textContent = CONFIG.email;
+
+  // الصورة الشخصية أو الحروف الأولى
+  const avatar = $("avatar");
+  if (CONFIG.avatarUrl) {
+    const img = document.createElement("img");
+    img.src = CONFIG.avatarUrl;
+    img.alt = CONFIG.name;
+    avatar.appendChild(img);
+  } else {
+    avatar.textContent = CONFIG.name.split(" ").map(w => w[0]).slice(0, 2).join("");
+  }
+
+  // الروابط
+  $("callBtn").href = `tel:${CONFIG.phone}`;
+  $("waBtn").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("مرحباً، تواصلت معك من الكارت الرقمي")}`;
+  $("mailBtn").href = `mailto:${CONFIG.email}`;
+  $("mapBtn").href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONFIG.address)}`;
+  $("webBtn").href = CONFIG.website;
+
+  // أيقونات التواصل الاجتماعي
+  const socialsBox = $("socials");
+  Object.entries(CONFIG.social).forEach(([key, url]) => {
+    if (!url || url === "#") return;
+    const a = document.createElement("a");
+    a.className = "social";
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.setAttribute("aria-label", key);
+    a.innerHTML = ICONS[key] || "";
+    socialsBox.appendChild(a);
+  });
+
+  // ربط الأزرار
+  $("saveBtn").addEventListener("click", saveContact);
+  $("shareBtn").addEventListener("click", shareCard);
+}
+
+/* ===================== ترميز Quoted-Printable لدعم العربية ===================== */
+function qp(text) {
+  const bytes = new TextEncoder().encode(text);
+  let out = "", line = "";
+  for (const b of bytes) {
+    let ch;
+    if (b >= 33 && b <= 126 && b !== 61) ch = String.fromCharCode(b);       // حروف إنجليزية وأرقام
+    else if (b === 32) ch = " ";                                              // مسافة
+    else ch = "=" + b.toString(16).toUpperCase().padStart(2, "0");           // بايت عربي مُرمّز
+    if (line.length + ch.length > 75) { out += line + "=\r\n"; line = ""; } // لف السطر
+    line += ch;
+  }
+  return out + line;
+}
+
+/* ===================== إنشاء ملف vCard ===================== */
+function buildVCard() {
+  const lines = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;${qp(CONFIG.name)};;;`,
+    `FN;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.name)}`,
+    `TITLE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.title)}`,
+    `ORG;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.company)}`,
+    `TEL;TYPE=CELL,VOICE:${CONFIG.phone}`,
+    `EMAIL;TYPE=INTERNET:${CONFIG.email}`,
+    `ADR;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE;TYPE=WORK:;;${qp(CONFIG.address)};;;;`,
+    `URL:${CONFIG.website}`,
+    `NOTE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.bio)}`,
+    "END:VCARD"
+  ];
+  return lines.join("\r\n");
+}
+
+/* ===================== حفظ جهة الاتصال (تنزيل ملف VCF) ===================== */
+function saveContact() {
+  const blob = new Blob([buildVCard()], { type: "text/vcard;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "mostafa-sakr.vcf";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast("تم تجهيز ملف جهة الاتصال ✅");
+}
+
+/* ===================== مشاركة الكارت ===================== */
+async function shareCard() {
+  const data = {
+    title: CONFIG.name,
+    text: `${CONFIG.name} - ${CONFIG.title}`,
+    url: location.href
+  };
+  if (navigator.share) {
+    try {
+      await navigator.share(data);
+    } catch (err) {
+      if (err.name !== "AbortError") copyLink(); // المستخدم ألغى المشاركة = لا نفعل شيئًا
+    }
+  } else {
+    copyLink(); // المشاركة غير مدعومة = نسخ الرابط
+  }
+}
+
+async function copyLink() {
+  const link = location.href;
+  try {
+    await navigator.clipboard.writeText(link);
+    showToast("تم نسخ رابط الكارت 📋");
+  } catch (err) {
+    // احتياط للمتصفحات القديمة
+    const t = document.createElement("textarea");
+    t.value = link;
+    document.body.appendChild(t);
+    t.select();
+    document.execCommand("copy");
+    t.remove();
+    showToast("تم نسخ رابط الكارت 📋");
+  }
+}
+
+/* ===================== رسالة التنبيه ===================== */
+let toastTimer;
+function showToast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2500);
+}
+
+render();
+</script>
+</body>
+</html>
