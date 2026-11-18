@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مصطفي صقر | بطاقة أعمال رقمية</title>
 <style>
-  /* ========== الألوان (يمكنك تغيير الذهبي من هنا) ========== */
+  /* ========== الألوان (تقدر تغيّر الذهبي من هنا) ========== */
   :root{
     --gold:#d4af37;
     --gold-light:#f6e27a;
@@ -47,7 +47,7 @@
     animation:fadeUp .8s ease both;
   }
 
-  /* ========== الصورة الشخصية / الشعار ========== */
+  /* ========== الصورة الشخصية ========== */
   .avatar{
     width:120px;
     height:120px;
@@ -70,7 +70,12 @@
     color:var(--gold);
     overflow:hidden;
   }
-  .avatar-inner img{width:100%;height:100%;object-fit:cover}
+  .avatar-inner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 25%;
+  }
 
   h1{
     font-size:26px;
@@ -240,29 +245,29 @@ const CONFIG = {
   title: "مطور أعمال تكنولوجيا طبية",
   company: "EST",
 
-  // ✏️ نبذة سطر واحد عن خبرتك وخدماتك (أنت لم تكتبها بعد)
+  // ✏️ نبذة سطر واحد عن خبرتك وخدماتك
   bio: "أساعد الشركات والمؤسسات الطبية على تطوير حلول التكنولوجيا الطبية وتحسين تجربة العمل الرقمي.",
 
   // ✏️ رقم الهاتف بصيغة دولية مع علامة +
   phone: "+201275646204",
 
-  // ✏️ رقم الواتساب بدون + ولا مسافات (هنا نفس رقم الهاتف)
+  // ✏️ رقم الواتساب بدون + ولا مسافات
   whatsapp: "201275646204",
 
-  // ✏️ البريد الإلكتروني (لم تكتبه بعد)
+  // ✏️ البريد الإلكتروني
   email: "example@email.com",
 
-  // ✏️ المدينة والعنوان (لم تكتبه بعد)
+  // ✏️ المدينة والعنوان
   address: "القاهرة، مصر",
 
-  // ✏️ رابط موقعك الإلكتروني (لم تكتبه بعد)
+  // ✏️ رابط موقعك الإلكتروني
   website: "https://example.com",
 
-  // ✏️ رابط صورة شخصية أو شعار الشركة (اتركه فارغًا لعرض الحروف الأولى)
-  // مثال: "https://example.com/photo.jpg"
-  avatarUrl: "",
+  // ✏️ اسم ملف الصورة اللي رفعته على GitHub جنب index.html
+  // لو مش عايز صورة سيبه فاضي كده: ""
+  avatarUrl: "photo.jpg",
 
-  // ✏️ روابط التواصل الاجتماعي (ضع رابط حسابك أو اتركه "#" للإخفاء)
+  // ✏️ روابط التواصل الاجتماعي (لو مش عندك حساب، خلّيه "#" عشان يتخفي)
   social: {
     facebook:  "https://facebook.com/",
     instagram: "https://instagram.com/",
@@ -334,10 +339,10 @@ function qp(text) {
   let out = "", line = "";
   for (const b of bytes) {
     let ch;
-    if (b >= 33 && b <= 126 && b !== 61) ch = String.fromCharCode(b);       // حروف إنجليزية وأرقام
-    else if (b === 32) ch = " ";                                              // مسافة
-    else ch = "=" + b.toString(16).toUpperCase().padStart(2, "0");           // بايت عربي مُرمّز
-    if (line.length + ch.length > 75) { out += line + "=\r\n"; line = ""; } // لف السطر
+    if (b >= 33 && b <= 126 && b !== 61) ch = String.fromCharCode(b);
+    else if (b === 32) ch = " ";
+    else ch = "=" + b.toString(16).toUpperCase().padStart(2, "0");
+    if (line.length + ch.length > 75) { out += line + "=\r\n"; line = ""; }
     line += ch;
   }
   return out + line;
@@ -387,10 +392,10 @@ async function shareCard() {
     try {
       await navigator.share(data);
     } catch (err) {
-      if (err.name !== "AbortError") copyLink(); // المستخدم ألغى المشاركة = لا نفعل شيئًا
+      if (err.name !== "AbortError") copyLink();
     }
   } else {
-    copyLink(); // المشاركة غير مدعومة = نسخ الرابط
+    copyLink();
   }
 }
 
@@ -400,7 +405,6 @@ async function copyLink() {
     await navigator.clipboard.writeText(link);
     showToast("تم نسخ رابط الكارت 📋");
   } catch (err) {
-    // احتياط للمتصفحات القديمة
     const t = document.createElement("textarea");
     t.value = link;
     document.body.appendChild(t);
