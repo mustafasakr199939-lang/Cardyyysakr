@@ -1,0 +1,21 @@
+{
+  "name": "مصطفى صقر | بطاقة VIP",
+  "short_name": "بطاقة مصطفى",
+  "description": "بطاقة أعمال رقمية فاخرة لمصطفى صقر",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "icons": [
+    {
+      "src": "./photo.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
