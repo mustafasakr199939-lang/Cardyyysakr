@@ -10,128 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      color-scheme: dark;
-      --gold: #d6b66a;
-      --gold-light: #f5e5ad;
-      --gold-deep: #8d6a2c;
-      --ink: #090908;
-      --panel: rgba(20, 19, 16, .82);
-      --muted: #aaa69b;
-      --line: rgba(214, 182, 106, .22);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      min-height: 100vh;
-      margin: 0;
-      padding: 32px 16px 56px;
-      overflow-x: hidden;
-      color: #f6f2e8;
-      font-family: "Cairo", Tahoma, sans-serif;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(128, 94, 37, .22), transparent 38rem),
-        radial-gradient(circle at 5% 55%, rgba(87, 68, 34, .12), transparent 24rem),
-        #090908;
-    }
-    body::before {
-      position: fixed; inset: 0; z-index: -1; pointer-events: none; content: "";
-      opacity: .14;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
-    }
-    a { color: inherit; }
-    .page { width: min(100%, 1120px); margin-inline: auto; }
-    .card {
-      --tilt-x: 0deg; --tilt-y: 0deg; --shine-x: 50%; --shine-y: 0%;
-      position: relative; isolation: isolate; overflow: hidden;
-      width: min(100%, 520px); margin: 0 auto;
-      padding: 34px 26px 26px; border: 1px solid rgba(226, 194, 123, .34); border-radius: 30px;
-      text-align: center; background: linear-gradient(145deg, rgba(33, 30, 23, .9), rgba(13, 13, 12, .94) 56%, rgba(27, 24, 19, .9));
-      box-shadow: 0 32px 90px rgba(0,0,0,.62), inset 0 1px rgba(255,255,255,.09), 0 0 60px rgba(190,148,65,.07);
-      backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
-      transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
-      transition: transform .18s ease-out, box-shadow .3s ease;
-      animation: rise .75s ease both;
-    }
-    .card::before {
-      position: absolute; inset: -70%; z-index: -1; content: ""; pointer-events: none;
-      background: linear-gradient(115deg, transparent 43%, rgba(255,255,255,.025) 47%, rgba(255,231,173,.14) 50%, rgba(255,255,255,.035) 53%, transparent 58%);
-      transform: translateX(-45%) rotate(12deg); animation: shimmer 7s ease-in-out infinite;
-    }
-    .card::after {
-      position: absolute; inset: 0; z-index: -1; content: ""; pointer-events: none; border-radius: inherit;
-      background: radial-gradient(360px circle at var(--shine-x) var(--shine-y), rgba(255,226,160,.12), transparent 65%);
-    }
-    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--gold-light); font-size: 11px; font-weight: 700; letter-spacing: 2px; }
-    .eyebrow::before, .eyebrow::after { width: 25px; height: 1px; content: ""; background: linear-gradient(90deg, transparent, var(--gold)); }
-    .eyebrow::after { transform: rotate(180deg); }
-    .avatar {
-      width: 132px; height: 132px; margin: 22px auto 16px; padding: 4px; border-radius: 50%;
-      background: conic-gradient(from 25deg, #fff1bd, #a57c35, #f8e6ab, #8b682d, #d6b66a, #fff1bd);
-      box-shadow: 0 0 0 7px rgba(214,182,106,.07), 0 0 38px rgba(214,182,106,.3);
-      animation: halo 4s ease-in-out infinite;
-    }
-    .avatar-inner { width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; border: 3px solid #13120f; border-radius: 50%; background: #17150f; color: var(--gold-light); font-size: 36px; font-weight: 800; }
-    .avatar-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
-    h1 { margin: 0; color: var(--gold-light); font-size: clamp(29px, 8vw, 37px); font-weight: 800; line-height: 1.4; text-shadow: 0 2px 22px rgba(214,182,106,.16); }
-    .title { max-width: 430px; margin: 5px auto 0; color: #eee8d8; font-size: 15px; font-weight: 600; line-height: 1.9; }
-    .company { display: inline-block; margin-top: 12px; padding: 3px 15px; border: 1px solid var(--line); border-radius: 999px; color: var(--gold); font-size: 11px; letter-spacing: 2px; }
-    .bio { max-width: 430px; margin: 17px auto 21px; color: var(--muted); font-size: 13px; line-height: 2; }
-    .contact-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 14px; }
-    .action {
-      min-height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-      padding: 10px 5px; border: 1px solid var(--line); border-radius: 17px; color: #f0eadc; text-decoration: none;
-      background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.018));
-      box-shadow: inset 0 1px rgba(255,255,255,.045); transition: transform .2s, border-color .2s, background .2s, color .2s;
-    }
-    .action:hover, .action:focus-visible { transform: translateY(-3px); border-color: rgba(245,229,173,.65); background: rgba(214,182,106,.12); color: var(--gold-light); outline: none; }
-    .action svg, .social svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-    .action span { font-size: 11px; font-weight: 600; }
-    .btn {
-      min-height: 49px; display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      border: 1px solid var(--line); border-radius: 15px; color: #f6f2e8; font: inherit; font-size: 13px; font-weight: 700;
-      text-decoration: none; cursor: pointer; background: rgba(255,255,255,.04); transition: transform .2s, box-shadow .2s, background .2s;
-    }
-    .btn:hover { transform: translateY(-2px); background: rgba(214,182,106,.11); box-shadow: 0 9px 24px rgba(0,0,0,.24); }
-    .btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .btn-primary { width: 100%; min-height: 54px; border: 0; color: #19140b; background: linear-gradient(110deg, #a77b32, #f3dfa1 52%, #c49a4d); box-shadow: 0 8px 26px rgba(181,137,54,.18), inset 0 1px rgba(255,255,255,.6); font-size: 15px; }
-    .btn-primary:hover { background: linear-gradient(110deg, #c59a4c, #fff0bd 52%, #d7b76c); }
-    .share-btn { width: 100%; }
-    .socials { display: flex; justify-content: center; gap: 10px; margin: 20px 0 12px; }
-    .social { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--gold); background: rgba(255,255,255,.035); transition: .2s; }
-    .social:hover { transform: translateY(-3px); color: #171109; background: var(--gold); }
-    .info { margin-top: 17px; padding-top: 13px; border-top: 1px solid rgba(255,255,255,.07); color: var(--muted); font-size: 11px; line-height: 2; }
-    .info p { margin: 2px 0; }
-    .ltr { display: inline-block; direction: ltr; }
-    .section { margin-top: 55px; }
-    .section-heading { margin: 0 0 7px; color: var(--gold-light); text-align: center; font-size: clamp(23px, 6vw, 30px); font-weight: 800; }
-    .section-lead { margin: 0 auto 24px; color: var(--muted); text-align: center; font-size: 13px; }
-    .projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
-    .project {
-      overflow: hidden; border: 1px solid var(--line); border-radius: 21px; background: linear-gradient(150deg, rgba(29,27,22,.86), rgba(15,15,13,.9));
-      box-shadow: 0 18px 42px rgba(0,0,0,.25); transition: transform .25s, border-color .25s, box-shadow .25s;
-    }
-    .project:hover { transform: translateY(-5px); border-color: rgba(245,229,173,.52); box-shadow: 0 24px 48px rgba(0,0,0,.35); }
-    .project-image { position: relative; height: 190px; overflow: hidden; background: #18150e; }
-    .project-image::after { position: absolute; inset: 45% 0 0; content: ""; background: linear-gradient(transparent, rgba(9,9,8,.74)); }
-    .project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
-    .project:hover .project-image img { transform: scale(1.055); }
-    .project-content { padding: 17px; }
-    .project-kicker { color: var(--gold); font-size: 10px; font-weight: 700; letter-spacing: 1px; }
-    .project h3 { margin: 5px 0 7px; color: #f6f0df; font-size: 17px; line-height: 1.65; }
-    .project p { min-height: 54px; margin: 0 0 14px; color: var(--muted); font-size: 12px; line-height: 1.8; }
-    .demo-link { width: 100%; min-height: 43px; border-radius: 12px; color: #171109; background: linear-gradient(110deg, #bc9147, #f2dfa5); font-size: 12px; }
-    .demo-link:hover { background: linear-gradient(110deg, #d6b66a, #fff0bd); }
-    .demo-link[aria-disabled="true"] { color: #d1c5a5; background: rgba(214,182,106,.1); border: 1px dashed rgba(214,182,106,.4); cursor: pointer; }
-    .demo-note { display: block; margin-top: 7px; color: #8e8879; text-align: center; font-size: 10px; }
-    .toast { position: fixed; z-index: 5; right: 50%; bottom: 22px; max-width: calc(100% - 28px); padding: 11px 20px; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; color: #171109; background: var(--gold-light); font-size: 13px; font-weight: 700; text-align: center; opacity: 0; pointer-events: none; transform: translate(50%, 18px); transition: .25s; }
-    .toast.show { opacity: 1; transform: translate(50%, 0); }
-    @keyframes rise { from { opacity: 0; transform: perspective(1100px) translateY(24px); } to { opacity: 1; transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); } }
-    @keyframes shimmer { 0%, 28% { transform: translateX(-55%) rotate(12deg); } 68%, 100% { transform: translateX(55%) rotate(12deg); } }
-    @keyframes halo { 0%, 100% { box-shadow: 0 0 0 7px rgba(214,182,106,.07), 0 0 30px rgba(214,182,106,.25); } 50% { box-shadow: 0 0 0 8px rgba(214,182,106,.1), 0 0 43px rgba(214,182,106,.4); } }
-    @media (max-width: 760px) { .projects { grid-template-columns: 1fr; max-width: 500px; margin-inline: auto; } .project-image { height: 215px; } .section { margin-top: 45px; } }
-    @media (max-width: 390px) { body { padding-inline: 12px; } .card { padding: 29px 17px 22px; border-radius: 25px; } .contact-actions { gap: 7px; } .action { min-height: 69px; border-radius: 14px; } .action span { font-size: 10px; } }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+    :root{color-scheme:dark;--gold:#d6b66a;--gold-light:#f5e5ad;--muted:#aaa69b;--line:rgba(214,182,106,.22)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{min-height:100vh;margin:0;padding:32px 16px 56px;overflow-x:hidden;color:#f6f2e8;font-family:"Cairo",Tahoma,sans-serif;background:radial-gradient(ellipse at 50% 0%,rgba(128,94,37,.22),transparent 38rem),radial-gradient(circle at 5% 55%,rgba(87,68,34,.12),transparent 24rem),#090908}a{color:inherit}.page{width:min(100%,1120px);margin-inline:auto}
+    .card{--tilt-x:0deg;--tilt-y:0deg;--shine-x:50%;--shine-y:0%;position:relative;isolation:isolate;overflow:hidden;width:min(100%,520px);margin:0 auto;padding:34px 26px 26px;border:1px solid rgba(226,194,123,.34);border-radius:30px;text-align:center;background:linear-gradient(145deg,rgba(33,30,23,.9),rgba(13,13,12,.94) 56%,rgba(27,24,19,.9));box-shadow:0 32px 90px rgba(0,0,0,.62),inset 0 1px rgba(255,255,255,.09),0 0 60px rgba(190,148,65,.07);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);transform:perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));transition:transform .18s ease-out;animation:rise .75s ease both}
+    .card:before{position:absolute;inset:-70%;z-index:-1;content:"";pointer-events:none;background:linear-gradient(115deg,transparent 43%,rgba(255,255,255,.025) 47%,rgba(255,231,173,.14) 50%,rgba(255,255,255,.035) 53%,transparent 58%);transform:translateX(-45%) rotate(12deg);animation:shimmer 7s ease-in-out infinite}.card:after{position:absolute;inset:0;z-index:-1;content:"";pointer-events:none;border-radius:inherit;background:radial-gradient(360px circle at var(--shine-x) var(--shine-y),rgba(255,226,160,.12),transparent 65%)}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:2px}.eyebrow:before,.eyebrow:after{width:25px;height:1px;content:"";background:linear-gradient(90deg,transparent,var(--gold))}.eyebrow:after{transform:rotate(180deg)}.avatar{width:132px;height:132px;margin:22px auto 16px;padding:4px;border-radius:50%;background:conic-gradient(from 25deg,#fff1bd,#a57c35,#f8e6ab,#8b682d,#d6b66a,#fff1bd);box-shadow:0 0 0 7px rgba(214,182,106,.07),0 0 38px rgba(214,182,106,.3);animation:halo 4s ease-in-out infinite}.avatar-inner{width:100%;height:100%;display:grid;place-items:center;overflow:hidden;border:3px solid #13120f;border-radius:50%;background:#17150f;color:var(--gold-light);font-size:36px;font-weight:800}.avatar-inner img{width:100%;height:100%;object-fit:cover;object-position:center 25%}h1{margin:0;color:var(--gold-light);font-size:clamp(29px,8vw,37px);font-weight:800;line-height:1.4;text-shadow:0 2px 22px rgba(214,182,106,.16)}.title{max-width:430px;margin:5px auto 0;color:#eee8d8;font-size:15px;font-weight:600;line-height:1.9}.company{display:inline-block;margin-top:12px;padding:3px 15px;border:1px solid var(--line);border-radius:999px;color:var(--gold);font-size:11px;letter-spacing:2px}.bio{max-width:430px;margin:17px auto 21px;color:var(--muted);font-size:13px;line-height:2}
+    .contact-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 14px}.action{min-height:75px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px 5px;border:1px solid var(--line);border-radius:17px;color:#f0eadc;text-decoration:none;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.018));transition:.2s}.action:hover,.action:focus-visible{transform:translateY(-3px);border-color:rgba(245,229,173,.65);background:rgba(214,182,106,.12);color:var(--gold-light);outline:none}.action svg,.social svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.action span{font-size:11px;font-weight:600}.btn{min-height:49px;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line);border-radius:15px;color:#f6f2e8;font:inherit;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;background:rgba(255,255,255,.04);transition:transform .2s,box-shadow .2s,background .2s}.btn:hover{transform:translateY(-2px);background:rgba(214,182,106,.11);box-shadow:0 9px 24px rgba(0,0,0,.24)}.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.btn-primary{width:100%;min-height:54px;border:0;color:#19140b;background:linear-gradient(110deg,#a77b32,#f3dfa1 52%,#c49a4d);box-shadow:0 8px 26px rgba(181,137,54,.18),inset 0 1px rgba(255,255,255,.6);font-size:15px}.btn-primary:hover{background:linear-gradient(110deg,#c59a4c,#fff0bd 52%,#d7b76c)}.share-btn{width:100%}.socials{display:flex;justify-content:center;gap:10px;margin:20px 0 12px}.social{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;color:var(--gold);background:rgba(255,255,255,.035);transition:.2s}.social:hover{transform:translateY(-3px);color:#171109;background:var(--gold)}.info{margin-top:17px;padding-top:13px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted);font-size:11px;line-height:2}.info p{margin:2px 0}.ltr{display:inline-block;direction:ltr}
+    .section{margin-top:55px}.section-heading{margin:0 0 7px;color:var(--gold-light);text-align:center;font-size:clamp(23px,6vw,30px);font-weight:800}.section-lead{margin:0 auto 24px;color:var(--muted);text-align:center;font-size:13px}.projects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.project{overflow:hidden;border:1px solid var(--line);border-radius:21px;background:linear-gradient(150deg,rgba(29,27,22,.86),rgba(15,15,13,.9));box-shadow:0 18px 42px rgba(0,0,0,.25);transition:transform .25s,border-color .25s,box-shadow .25s}.project:hover{transform:translateY(-5px);border-color:rgba(245,229,173,.52);box-shadow:0 24px 48px rgba(0,0,0,.35)}.project-image{position:relative;height:190px;overflow:hidden;background:#18150e}.project-image:after{position:absolute;inset:45% 0 0;content:"";background:linear-gradient(transparent,rgba(9,9,8,.74))}.project-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.project:hover .project-image img{transform:scale(1.055)}.project-content{padding:17px}.project-kicker{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1px}.project h3{margin:5px 0 7px;color:#f6f0df;font-size:17px;line-height:1.65}.project p{min-height:54px;margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.8}.demo-link{width:100%;min-height:43px;border-radius:12px;color:#171109;background:linear-gradient(110deg,#bc9147,#f2dfa5);font-size:12px}.demo-link:hover{background:linear-gradient(110deg,#d6b66a,#fff0bd)}.toast{position:fixed;z-index:5;right:50%;bottom:22px;max-width:calc(100% - 28px);padding:11px 20px;border:1px solid rgba(255,255,255,.16);border-radius:14px;color:#171109;background:var(--gold-light);font-size:13px;font-weight:700;text-align:center;opacity:0;pointer-events:none;transform:translate(50%,18px);transition:.25s}.toast.show{opacity:1;transform:translate(50%,0)}
+    @keyframes rise{from{opacity:0;transform:perspective(1100px) translateY(24px)}to{opacity:1;transform:perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))}}@keyframes shimmer{0%,28%{transform:translateX(-55%) rotate(12deg)}68%,100%{transform:translateX(55%) rotate(12deg)}}@keyframes halo{0%,100%{box-shadow:0 0 0 7px rgba(214,182,106,.07),0 0 30px rgba(214,182,106,.25)}50%{box-shadow:0 0 0 8px rgba(214,182,106,.1),0 0 43px rgba(214,182,106,.4)}}@media(max-width:760px){.projects{grid-template-columns:1fr;max-width:500px;margin-inline:auto}.project-image{height:215px}.section{margin-top:45px}}@media(max-width:390px){body{padding-inline:12px}.card{padding:29px 17px 22px;border-radius:25px}.contact-actions{gap:7px}.action{min-height:69px;border-radius:14px}.action span{font-size:10px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
   </style>
 </head>
 <body>
@@ -139,204 +25,51 @@
     <section class="card" id="card" aria-label="بطاقة مصطفى صقر الرقمية">
       <span class="eyebrow">بطاقة أعمال VIP</span>
       <div class="avatar"><div class="avatar-inner" id="avatar" aria-label="الصورة الشخصية"></div></div>
-      <h1 id="name"></h1>
-      <p class="title" id="title"></p>
-      <span class="company" id="company"></span>
-      <p class="bio" id="bio"></p>
-
-      <button class="btn btn-primary" id="saveBtn" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 12 4-4m-4 4-4-4M5 17v3h14v-3"/></svg>
-        حفظ جهة الاتصال
-      </button>
+      <h1 id="name"></h1><p class="title" id="title"></p><span class="company" id="company"></span><p class="bio" id="bio"></p>
+      <button class="btn btn-primary" id="saveBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 12 4-4m-4 4-4-4M5 17v3h14v-3"/></svg>حفظ جهة الاتصال</button>
       <nav class="contact-actions" aria-label="التواصل السريع">
-        <a class="action" id="callBtn" href="#" aria-label="اتصال"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.5v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.8 2 2 0 0 1 3.1 1.5h3a2 2 0 0 1 2 1.7l.5 2.8a2 2 0 0 1-.6 1.7L6.7 9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 1.7-.6l2.8.5a2 2 0 0 1 1.7 1.9z"/></svg><span>اتصال</span></a>
-        <a class="action" id="waBtn" href="#" target="_blank" rel="noopener" aria-label="واتساب"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.2 8.1c.3-.6.6-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.7c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6a7 7 0 0 0 2.8 2.8c.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-2 .5a9.3 9.3 0 0 1-4-2.3 9.3 9.3 0 0 1-2.3-3.5c-.3-1 0-1.8.4-2.2Z"/></svg><span>واتساب</span></a>
-        <a class="action" id="mailBtn" href="#" aria-label="البريد الإلكتروني"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg><span>بريد</span></a>
-        <a class="action" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="الموقع"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>الموقع</span></a>
+        <a class="action" id="callBtn" href="#" aria-label="اتصال"><svg viewBox="0 0 24 24"><path d="M21 16.5v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.8 2 2 0 0 1 3.1 1.5h3a2 2 0 0 1 2 1.7l.5 2.8a2 2 0 0 1-.6 1.7L6.7 9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 1.7-.6l2.8.5a2 2 0 0 1 1.7 1.9z"/></svg><span>اتصال</span></a>
+        <a class="action" id="waBtn" href="#" target="_blank" rel="noopener" aria-label="واتساب"><svg viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7A8.5 8.5 0 1 1 20.5 11.5Z"/><path d="M8.2 8.1c.3-.6.6-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.7c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6a7 7 0 0 0 2.8 2.8c.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-2 .5a9.3 9.3 0 0 1-4-2.3 9.3 9.3 0 0 1-2.3-3.5c-.3-1 0-1.8.4-2.2Z"/></svg><span>واتساب</span></a>
+        <a class="action" id="mailBtn" href="#" aria-label="البريد الإلكتروني"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg><span>بريد</span></a>
+        <a class="action" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="الموقع"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>الموقع</span></a>
       </nav>
-      <a class="btn share-btn" id="shareBtn" href="#" role="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4m-6.6 9 6.6 4.4"/></svg>
-        مشاركة الكارت
-      </a>
+      <a class="btn share-btn" id="shareBtn" href="#" role="button"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4m-6.6 9 6.6 4.4"/></svg>مشاركة الكارت</a>
       <div class="socials" id="socials" aria-label="حسابات التواصل الاجتماعي"></div>
       <div class="info"><p>⌖ <span id="addrTxt"></span></p><p>☎ <span class="ltr" id="phoneTxt"></span></p><p>✉ <span class="ltr" id="emailTxt"></span></p></div>
     </section>
-
-    <section class="section" aria-labelledby="projectsTitle">
-      <h2 class="section-heading" id="projectsTitle">نماذج حية من أعمالي</h2>
-      <p class="section-lead">تجارب رقمية راقية تساعد المطاعم والوجهات على بناء ولاء يدوم.</p>
-      <div class="projects" id="projects"></div>
-    </section>
+    <section class="section" aria-labelledby="projectsTitle"><h2 class="section-heading" id="projectsTitle">نماذج حية من أعمالي</h2><p class="section-lead">تجارب رقمية راقية تساعد المطاعم والوجهات على بناء ولاء يدوم.</p><div class="projects" id="projects"></div></section>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
   <script>
-    /* عدّل بيانات البطاقة وروابط المشاريع من هذا القسم فقط. */
-    const CONFIG = {
-      name: "مصطفى صقر",
-      title: "مطور أنظمة الولاء الذكية والحلول الرقمية للمطاعم والكافيهات",
-      company: "EST",
-      bio: "أساعد المطاعم والكافيهات على تحويل عملائها إلى زوار دائمين عبر كروت VIP ذكية وتجارب رقمية أنيقة تزيد التفاعل والمبيعات وتُبقي علامتكم في الذاكرة.",
-      phone: "+201275646204",
-      whatsapp: "201275646204",
-      email: "example@email.com",
-      address: "القاهرة، مصر",
-      website: "https://example.com",
-      avatarUrl: "photo.jpg", // غيّر هذا الرابط لصورتك أو اتركه فارغاً لإظهار الأحرف الأولى.
-      social: {
-        facebook: "https://facebook.com/",
-        instagram: "https://instagram.com/",
-        linkedin: "https://linkedin.com/",
-        youtube: "https://youtube.com/"
-      },
-      projects: [
-        {
-          name: "مشروع قرية البادية (Badia Village)",
-          description: "نظام كارت VIP رقمي ومنيو تفاعلي يقدّم تجربة ضيافة عصرية لضيوف القرية.",
-          image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=85",
-          demoUrl: "#" // أضف رابط المعاينة الحية للمشروع.
-        },
-        {
-          name: "مشروع منتجع الخيمة (Al-Khayma Resort)",
-          description: "تجربة حجز ذكية وبطاقة عضوية فاخرة تربط الزائر بخدمات المنتجع.",
-          image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1000&q=85",
-          demoUrl: "#" // أضف رابط المعاينة الحية للمشروع.
-        },
-        {
-          name: "نموذج كافيهات VIP (Interactive Demo)",
-          description: "نموذج مرن جاهز للتخصيص وإضافة مشروع جديد أو استعراض تجربة الولاء للكافيهات.",
-          image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=85",
-          demoUrl: "#" // أضف رابط المعاينة الحية للمشروع.
-        }
+    const CONFIG={
+      name:"مصطفى صقر",title:"مطور أنظمة الولاء الذكية والحلول الرقمية للمطاعم والكافيهات",company:"EST",
+      bio:"أساعد المطاعم والكافيهات على تحويل عملائها إلى زوار دائمين عبر كروت VIP ذكية وتجارب رقمية أنيقة تزيد التفاعل والمبيعات وتُبقي علامتكم في الذاكرة.",
+      phone:"+201275646204",whatsapp:"201275646204",email:"example@email.com",address:"القاهرة، مصر",website:"https://example.com",avatarUrl:"photo.jpg",
+      social:{facebook:"https://facebook.com/",instagram:"https://instagram.com/",linkedin:"https://linkedin.com/",youtube:"https://youtube.com/"},
+      projects:[
+        {name:"مشروع قرية البادية (Badia Village)",description:"نظام كارت VIP رقمي ومنيو تفاعلي يقدّم تجربة ضيافة عصرية لضيوف القرية.",image:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=85",demoUrl:"#"},
+        {name:"مشروع منتجع الخيمة (Al-Khayma Resort)",description:"تجربة حجز ذكية وبطاقة عضوية فاخرة تربط الزائر بخدمات المنتجع.",image:"https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1000&q=85",demoUrl:"#"},
+        {name:"نموذج كافيهات VIP (Interactive Demo)",description:"نموذج مرن جاهز للتخصيص وإضافة مشروع جديد أو استعراض تجربة الولاء للكافيهات.",image:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=85",demoUrl:"#"},
+        {name:"Tatinak VIP · واجهة الكاشير",description:"معاينة حية لتجربة الكاشير ضمن منصة Tatinak VIP التفاعلية.",image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85",demoUrl:"https://tatinak-vip.vercel.app/?view=cashier"}
       ]
     };
-
-    const ICONS = {
-      facebook: '<svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
-      instagram: '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5"/></svg>',
-      linkedin: '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>',
-      youtube: '<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>'
-    };
-    const $ = id => document.getElementById(id);
-
-    function render() {
-      $("name").textContent = CONFIG.name;
-      $("title").textContent = CONFIG.title;
-      $("company").textContent = CONFIG.company;
-      $("bio").textContent = CONFIG.bio;
-      $("addrTxt").textContent = CONFIG.address;
-      $("phoneTxt").textContent = CONFIG.phone;
-      $("emailTxt").textContent = CONFIG.email;
-
-      const avatar = $("avatar");
-      if (CONFIG.avatarUrl) {
-        const img = document.createElement("img");
-        img.src = CONFIG.avatarUrl;
-        img.alt = CONFIG.name;
-        img.onerror = () => { img.remove(); avatar.textContent = CONFIG.name.split(" ").map(word => word[0]).slice(0, 2).join(""); };
-        avatar.appendChild(img);
-      } else {
-        avatar.textContent = CONFIG.name.split(" ").map(word => word[0]).slice(0, 2).join("");
-      }
-
-      $("callBtn").href = `tel:${CONFIG.phone}`;
-      $("waBtn").href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("مرحباً، تواصلت معك من الكارت الرقمي")}`;
-      $("mailBtn").href = `mailto:${CONFIG.email}`;
-      $("mapBtn").href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONFIG.address)}`;
-
-      Object.entries(CONFIG.social).forEach(([key, url]) => {
-        if (!url || url === "#") return;
-        const link = document.createElement("a");
-        link.className = "social"; link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
-        link.setAttribute("aria-label", key); link.innerHTML = ICONS[key] || "";
-        $("socials").appendChild(link);
-      });
-
-      CONFIG.projects.forEach((project, index) => {
-        const article = document.createElement("article");
-        article.className = "project";
-        const hasDemo = project.demoUrl && project.demoUrl !== "#";
-        article.innerHTML = `
-          <div class="project-image"><img src="${project.image}" alt="معاينة ${project.name}" loading="lazy"></div>
-          <div class="project-content">
-            <span class="project-kicker">مشروع ${String(index + 1).padStart(2, "0")}</span>
-            <h3></h3><p></p>
-            <a class="btn demo-link" ${hasDemo ? `href="${project.demoUrl}" target="_blank" rel="noopener noreferrer"` : 'href="#" aria-disabled="true"'}>معاينة حية · Live Demo</a>
-            ${hasDemo ? "" : '<small class="demo-note">أضف رابط المشروع في إعدادات CONFIG لتفعيل المعاينة.</small>'}
-          </div>`;
-        article.querySelector("h3").textContent = project.name;
-        article.querySelector("p").textContent = project.description;
-        article.querySelector("img").addEventListener("error", event => { event.currentTarget.style.visibility = "hidden"; });
-        if (!hasDemo) article.querySelector(".demo-link").addEventListener("click", event => { event.preventDefault(); showToast("أضف رابط المعاينة في إعدادات المشروع أولاً"); });
-        $("projects").appendChild(article);
-      });
-
-      $("saveBtn").addEventListener("click", saveContact);
-      $("shareBtn").addEventListener("click", shareCard);
-      enableTilt();
+    const ICONS={facebook:'<svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',instagram:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5"/></svg>',linkedin:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>',youtube:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>'};
+    const $=id=>document.getElementById(id);
+    function render(){
+      ["name","title","company","bio"].forEach(id=>$(id).textContent=CONFIG[id]);$("addrTxt").textContent=CONFIG.address;$("phoneTxt").textContent=CONFIG.phone;$("emailTxt").textContent=CONFIG.email;
+      const avatar=$("avatar");if(CONFIG.avatarUrl){const img=document.createElement("img");img.src=CONFIG.avatarUrl;img.alt=CONFIG.name;img.onerror=()=>{img.remove();avatar.textContent=CONFIG.name.split(" ").map(w=>w[0]).slice(0,2).join("")};avatar.appendChild(img)}else avatar.textContent=CONFIG.name.split(" ").map(w=>w[0]).slice(0,2).join("");
+      $("callBtn").href=`tel:${CONFIG.phone}`;$("waBtn").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("مرحباً، تواصلت معك من الكارت الرقمي")}`;$("mailBtn").href=`mailto:${CONFIG.email}`;$("mapBtn").href=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONFIG.address)}`;
+      Object.entries(CONFIG.social).forEach(([key,url])=>{if(!url||url==="#")return;const a=document.createElement("a");a.className="social";a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.setAttribute("aria-label",key);a.innerHTML=ICONS[key]||"";$("socials").appendChild(a)});
+      CONFIG.projects.forEach((project,index)=>{const article=document.createElement("article");article.className="project";article.innerHTML=`<div class="project-image"><img src="${project.image}" alt="معاينة ${project.name}" loading="lazy"></div><div class="project-content"><span class="project-kicker">مشروع ${String(index+1).padStart(2,"0")}</span><h3></h3><p></p><a class="btn demo-link" href="${project.demoUrl}" ${project.demoUrl!=="#"?'target="_blank" rel="noopener noreferrer"':'aria-disabled="true"'}>معاينة حية · Live Demo</a></div>`;article.querySelector("h3").textContent=project.name;article.querySelector("p").textContent=project.description;if(project.demoUrl==="#")article.querySelector(".demo-link").addEventListener("click",e=>{e.preventDefault();showToast("أضف رابط المعاينة في إعدادات المشروع أولاً")});article.querySelector("img").addEventListener("error",e=>e.currentTarget.style.visibility="hidden");$("projects").appendChild(article)});
+      $("saveBtn").addEventListener("click",saveContact);$("shareBtn").addEventListener("click",shareCard);enableTilt();
     }
-
-    function enableTilt() {
-      const card = $("card");
-      const move = (clientX, clientY) => {
-        const rect = card.getBoundingClientRect();
-        const x = (clientX - rect.left) / rect.width;
-        const y = (clientY - rect.top) / rect.height;
-        card.style.setProperty("--tilt-y", `${(x - .5) * 7}deg`);
-        card.style.setProperty("--tilt-x", `${(.5 - y) * 7}deg`);
-        card.style.setProperty("--shine-x", `${x * 100}%`);
-        card.style.setProperty("--shine-y", `${y * 100}%`);
-      };
-      card.addEventListener("pointermove", event => { if (event.pointerType !== "mouse" || event.buttons === 0) move(event.clientX, event.clientY); });
-      card.addEventListener("pointerleave", () => { card.style.setProperty("--tilt-x", "0deg"); card.style.setProperty("--tilt-y", "0deg"); card.style.setProperty("--shine-x", "50%"); card.style.setProperty("--shine-y", "0%"); });
-    }
-
-    function qp(text) {
-      const bytes = new TextEncoder().encode(text);
-      let out = "", line = "";
-      for (const byte of bytes) {
-        let ch;
-        if (byte >= 33 && byte <= 126 && byte !== 61) ch = String.fromCharCode(byte);
-        else if (byte === 32) ch = " ";
-        else ch = "=" + byte.toString(16).toUpperCase().padStart(2, "0");
-        if (line.length + ch.length > 75) { out += line + "=\r\n"; line = ""; }
-        line += ch;
-      }
-      return out + line;
-    }
-    function buildVCard() {
-      return ["BEGIN:VCARD", "VERSION:3.0", `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;${qp(CONFIG.name)};;;`, `FN;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.name)}`, `TITLE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.title)}`, `ORG;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.company)}`, `TEL;TYPE=CELL,VOICE:${CONFIG.phone}`, `EMAIL;TYPE=INTERNET:${CONFIG.email}`, `ADR;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE;TYPE=WORK:;;${qp(CONFIG.address)};;;;`, `URL:${CONFIG.website}`, `NOTE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.bio)}`, "END:VCARD"].join("\r\n");
-    }
-    function saveContact() {
-      const blob = new Blob([buildVCard()], { type: "text/vcard;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a"); link.href = url; link.download = "mostafa-sakr.vcf";
-      document.body.appendChild(link); link.click(); link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      showToast("تم تجهيز ملف جهة الاتصال ✅");
-    }
-    async function shareCard(event) {
-      event.preventDefault();
-      const data = { title: CONFIG.name, text: `${CONFIG.name} - ${CONFIG.title}`, url: location.href };
-      if (navigator.share) {
-        try { await navigator.share(data); }
-        catch (error) { if (error.name !== "AbortError") copyLink(); }
-      } else copyLink();
-    }
-    async function copyLink() {
-      try { await navigator.clipboard.writeText(location.href); }
-      catch (error) {
-        const textarea = document.createElement("textarea"); textarea.value = location.href;
-        document.body.appendChild(textarea); textarea.select(); document.execCommand("copy"); textarea.remove();
-      }
-      showToast("تم نسخ رابط الكارت 📋");
-    }
-    let toastTimer;
-    function showToast(message) {
-      const toast = $("toast"); toast.textContent = message; toast.classList.add("show");
-      clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
-    }
-    render();
+    function enableTilt(){const card=$("card"),move=(x,y)=>{const r=card.getBoundingClientRect(),px=(x-r.left)/r.width,py=(y-r.top)/r.height;card.style.setProperty("--tilt-y",`${(px-.5)*7}deg`);card.style.setProperty("--tilt-x",`${(.5-py)*7}deg`);card.style.setProperty("--shine-x",`${px*100}%`);card.style.setProperty("--shine-y",`${py*100}%`)};card.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse"||e.buttons===0)move(e.clientX,e.clientY)});card.addEventListener("pointerleave",()=>{card.style.setProperty("--tilt-x","0deg");card.style.setProperty("--tilt-y","0deg");card.style.setProperty("--shine-x","50%");card.style.setProperty("--shine-y","0%")})}
+    function qp(text){const bytes=new TextEncoder().encode(text);let out="",line="";for(const b of bytes){let ch;if(b>=33&&b<=126&&b!==61)ch=String.fromCharCode(b);else if(b===32)ch=" ";else ch="="+b.toString(16).toUpperCase().padStart(2,"0");if(line.length+ch.length>75){out+=line+"=\r\n";line=""}line+=ch}return out+line}
+    function buildVCard(){return ["BEGIN:VCARD","VERSION:3.0",`N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;${qp(CONFIG.name)};;;`,`FN;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.name)}`,`TITLE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.title)}`,`ORG;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.company)}`,`TEL;TYPE=CELL,VOICE:${CONFIG.phone}`,`EMAIL;TYPE=INTERNET:${CONFIG.email}`,`ADR;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE;TYPE=WORK:;;${qp(CONFIG.address)};;;;`,`URL:${CONFIG.website}`,`NOTE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${qp(CONFIG.bio)}`,"END:VCARD"].join("\r\n")}
+    function saveContact(){const blob=new Blob([buildVCard()],{type:"text/vcard;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="mostafa-sakr.vcf";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast("تم تجهيز ملف جهة الاتصال ✅")}
+    async function shareCard(e){e.preventDefault();const data={title:CONFIG.name,text:`${CONFIG.name} - ${CONFIG.title}`,url:location.href};if(navigator.share){try{await navigator.share(data)}catch(err){if(err.name!=="AbortError")copyLink()}}else copyLink()}
+    async function copyLink(){try{await navigator.clipboard.writeText(location.href)}catch(err){const t=document.createElement("textarea");t.value=location.href;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}showToast("تم نسخ رابط الكارت 📋")}
+    let toastTimer;function showToast(message){const toast=$("toast");toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2600)}render();
   </script>
 </body>
 </html>
