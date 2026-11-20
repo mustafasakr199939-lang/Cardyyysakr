@@ -1,4 +1,4 @@
-const CACHE_NAME = "cardyyysakr-vip-en-v2";
+const CACHE_NAME = "cardyyysakr-vip-ar-v3";
 const APP_SHELL = ["./", "./index.html", "./manifest.json", "./photo.jpg"];
 
 self.addEventListener("install", event => {
